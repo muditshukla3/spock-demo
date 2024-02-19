@@ -7,8 +7,22 @@ import com.ms.TooFewSidesException
 import spock.lang.Specification
 import spock.lang.Subject
 
-//https://batey.info/testing-your-restful-services-with.html
 class Test extends Specification {
+    void setup() {
+        //setup code that runs before each test method
+    }
+
+    void setupSpec(){
+        //setup code that run once at the start of specification
+    }
+    void cleanup() {
+        //clean up method that run after each test method
+    }
+
+    void cleanupSpec() {
+        //clean up method that tears down everything at the end of all tests
+    }
+
     def "should be a simple assertion"() {
         expect:
         1 == 1
@@ -91,7 +105,7 @@ class Test extends Specification {
         renderer.getForegroundColour()  == Color.RED
     }
 
-    def "should use a helper method"() {
+    def "should demonstrate 'verifyAll'"() {
         given:
         Renderer renderer = Mock()
         def shapeFactory = new ShapeFactory(renderer)
@@ -100,11 +114,9 @@ class Test extends Specification {
         def polygon = shapeFactory.createDefaultPolygon()
 
         then:
-        checkDefaultShape(polygon, renderer)
-    }
-
-    private void checkDefaultShape(Polygon polygon, Renderer renderer) {
-       assert polygon.sides == 5
-       assert polygon.renderer == renderer
+        verifyAll (polygon){
+            sides == 4
+            renderer == renderer
+        }
     }
 }
